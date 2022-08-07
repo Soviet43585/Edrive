@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Edrive</string>
+    <string name="submit">Submit</string>
+    <string name="slash">/</string>
+    <string name="consumption">Расход/Условные единицы</string>
+    <string name="name">Название</string>
 </resources>

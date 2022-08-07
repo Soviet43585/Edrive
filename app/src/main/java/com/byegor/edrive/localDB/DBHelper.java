@@ -1,4 +1,4 @@
-package com.byegor.edrive;
+package com.byegor.edrive.localDB;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String KEY_NAME = "name";
     public static final String KEY_FUEL_CONSUMPTION = "fuelConsumption";
     public static final String KEY_CONVENTIONAL_UNITS = "conventionalUnits";
+    public static final String KEY_FUEL = "fuel";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_MACHINES + "(" + KEY_ID
-                + " integer primary key," + KEY_NAME + " text," + KEY_FUEL_CONSUMPTION + " text," + KEY_CONVENTIONAL_UNITS + " text" + ")");
+                + " integer primary key," + KEY_NAME + " text," + KEY_FUEL_CONSUMPTION + " text," + KEY_CONVENTIONAL_UNITS + " text," + KEY_FUEL + " text" + ")");
     }
 
     @Override
@@ -33,4 +34,5 @@ public class DBHelper extends SQLiteOpenHelper {
 
         onCreate(db);
     }
+
 }

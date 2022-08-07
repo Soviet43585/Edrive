@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/submit"
+    android:id="@+id/addNewMachineForm"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:text="Название"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/machineName"
+        android:id="@+id/etMachineName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -26,7 +26,9 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelForName" />
+        app:layout_constraintTop_toBottomOf="@+id/labelForName"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/labelForConsumption"
@@ -34,12 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
-        android:text="Расход/Условные единицы"
+        android:text="@string/consumption"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/machineName" />
+        app:layout_constraintTop_toBottomOf="@+id/etMachineName" />
 
     <EditText
-        android:id="@+id/fuelConsumption"
+        android:id="@+id/etFuelConsumption"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -47,10 +49,12 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelForConsumption" />
+        app:layout_constraintTop_toBottomOf="@+id/labelForConsumption"
+        android:importantForAutofill="no"
+        tools:ignore="LabelFor" />
 
     <EditText
-        android:id="@+id/сonventionalUnits"
+        android:id="@+id/etConventionalUnits"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -66,20 +70,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="/"
+        android:text="@string/slash"
         android:textSize="34sp"
-        app:layout_constraintStart_toEndOf="@+id/fuelConsumption"
+        app:layout_constraintStart_toEndOf="@+id/etFuelConsumption"
         app:layout_constraintTop_toBottomOf="@+id/labelForConsumption" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCreateMachine"
         android:layout_width="341dp"
         android:layout_height="48dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
-        android:text="Submit"
+        android:text="@string/submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/startValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:text="Начальное значение"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFuelConsumption" />
+
+    <EditText
+        android:id="@+id/etStartValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startValue" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
