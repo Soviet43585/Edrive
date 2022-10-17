@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddDataForm"
+            android:name=".NewMachineActivity"
             android:label="AddDataActivity">
         </activity>
     </application>

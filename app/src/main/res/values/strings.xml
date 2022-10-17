@@ -4,4 +4,12 @@
     <string name="slash">/</string>
     <string name="consumption">Расход/Условные единицы</string>
     <string name="name">Название</string>
+    <string name="etStartFuelHint">Начальный уровень топлива</string>
+    <string name="etMachineNameHint">Название</string>
+    <string name="btnAddNewConsumptionText">Добавить норму расхода</string>
+    <string name="btnCreateNewMachineText">Сохранить машину</string>
+    <string name="etConsumptionNameHint">Название нормы</string>
+    <string name="etConsumptionNumberHint">Расход</string>
+    <string name="etConventionalUnitsHint">Работа</string>
+    <string name="btnDeletePoint">Ударить норму</string>
 </resources>

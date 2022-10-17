@@ -1,64 +1,84 @@
 package com.byegor.edrive;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
 import com.byegor.edrive.localDB.DBHelper;
+import com.byegor.edrive.model.Consumption;
+import com.byegor.edrive.model.Machine;
+import com.byegor.edrive.repository.ConsumptionRepository;
+import com.byegor.edrive.repository.MachineRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewMachineActivity extends Activity implements View.OnClickListener {
 
-    Button btnCreateMachine;
-    EditText etName, etFuelConsumption, etConventionalUnits, etStartValue;
-    DBHelper dbHelper;
-
+    ConsumptionRepository consumptionRepository;
+    MachineRepository machineRepository;
+    DBHelper dbHelper = new DBHelper(this);
+    List<View> allEds;
+    LinearLayout linear;
+    View v;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_machine_form);
-        btnCreateMachine = (Button) findViewById(R.id.btnCreateMachine);
-        btnCreateMachine.setOnClickListener(this);
-        etName = (EditText) findViewById(R.id.etMachineName);
-        etFuelConsumption = (EditText) findViewById(R.id.etFuelConsumption);
-        etConventionalUnits = (EditText) findViewById(R.id.etConventionalUnits);
-        etStartValue = (EditText) findViewById(R.id.etStartValue);
-        dbHelper = new DBHelper(this);
+        setContentView(R.layout.activity_machine_create_form);
+
+        Button btnAddNewPoint = (Button) findViewById(R.id.btnAddNewConsumption);
+        Button btnCreateNewMachine = (Button) findViewById(R.id.btnCreateNewMachine);
+
+        allEds = new ArrayList<>();
+        linear = (LinearLayout) findViewById(R.id.llNewConsumptionList);
+        machineRepository = new MachineRepository(dbHelper);
+        consumptionRepository = new ConsumptionRepository(dbHelper);
+
+        btnCreateNewMachine.setOnClickListener(this);
+        btnAddNewPoint.setOnClickListener(this);
+        v = getLayoutInflater().inflate(R.layout.consumption_point, null, false);
+        allEds.add(v);
+        linear.addView(v);
     }
 
 
     @Override
     public void onClick(View view) {
-
-        String name = etName.getText().toString();
-        String fuelConsumption = etFuelConsumption.getText().toString();
-        String conventionalUnits = etConventionalUnits.getText().toString();
-        String startValue = etStartValue.getText().toString();
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-
         switch (view.getId()) {
-            case R.id.btnCreateMachine:
-                Log.d("mLog","button pressed");
-                cv.put(DBHelper.KEY_NAME, name);
-                cv.put(DBHelper.KEY_FUEL_CONSUMPTION, fuelConsumption);
-                cv.put(DBHelper.KEY_CONVENTIONAL_UNITS, conventionalUnits);
-                cv.put(DBHelper.KEY_FUEL, startValue);
-                db.insert(DBHelper.TABLE_MACHINES,null,cv);
+            case R.id.btnAddNewConsumption:
+                v = getLayoutInflater().inflate(R.layout.consumption_point, null, false);
+                System.out.println(allEds.size() + " ");
+                allEds.add(v);
+                linear.addView(v);
+                break;
+            case R.id.btnCreateNewMachine:
+
+                EditText etNewMachineName = (EditText) findViewById(R.id.etMachineName);
+                EditText etStartFuel = (EditText) findViewById(R.id.etStartFuel);
+                Machine machine = new Machine(etNewMachineName.getText().toString(), Integer.parseInt(etStartFuel.getText().toString().trim()));
+                machineRepository.create(machine);
+
+                for (View v : allEds)
+                {
+                    EditText etUnitName = (EditText) v.findViewById(R.id.etConsumptionName);
+                    EditText etFuelConsumption = (EditText) v.findViewById(R.id.etConsumptionNumber);
+                    EditText etConventionalUnits = (EditText) v.findViewById(R.id.etConventionalUnits);
+                    Consumption consumption = new Consumption(etUnitName.getText().toString(), Float.parseFloat(etFuelConsumption.getText().toString()), Float.parseFloat(etConventionalUnits.getText().toString()), machine.getId());
+                    consumptionRepository.create(consumption);
+                }
+                
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
-            default:
-                break;
         }
     }
+
+
+
 }

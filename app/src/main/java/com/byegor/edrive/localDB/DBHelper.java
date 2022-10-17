@@ -10,13 +10,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "machines";
-    public static final String TABLE_MACHINES = "machines";
-
-    public static final String KEY_ID = "_id";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_FUEL_CONSUMPTION = "fuelConsumption";
-    public static final String KEY_CONVENTIONAL_UNITS = "conventionalUnits";
-    public static final String KEY_FUEL = "fuel";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -24,14 +17,31 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_MACHINES + "(" + KEY_ID
-                + " integer primary key," + KEY_NAME + " text," + KEY_FUEL_CONSUMPTION + " text," + KEY_CONVENTIONAL_UNITS + " text," + KEY_FUEL + " text" + ")");
+        db.execSQL("CREATE TABLE machine (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "fuel INTEGER NOT NULL); ");
+        db.execSQL("CREATE TABLE consumption (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "fuel_consumption FLOAT NOT NULL, " +
+                "conventional_unit FLOAT NOT NULL, " +
+                "machine_id INTEGER NOT NULL, " +
+                "FOREIGN KEY(machine_id) REFERENCES machine(id));");
+        db.execSQL("CREATE TABLE job ( " +
+                "machine_id INTEGER NOT NULL, " +
+                "consumption_id INTEGER NOT NULL, " +
+                "date DATE NOT NULL, " +
+                "job INTEGER NOT NULL, " +
+                "FOREIGN KEY(machine_id) REFERENCES machine(id), " +
+                "FOREIGN KEY(consumption_id) REFERENCES consumption(id));");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("drop table if exists " + TABLE_MACHINES);
-
+        db.execSQL("DROP TABLE IF EXISTS machine; ");
+        db.execSQL("DROP TABLE IF EXISTS consumption;");
+        db.execSQL("DROP TABLE IF EXISTS job; ");
         onCreate(db);
     }
 
