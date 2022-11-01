@@ -1,109 +1,85 @@
 package com.byegor.edrive;
 
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.content.CursorLoader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-
-import android.app.LoaderManager;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
 import android.view.View;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 
-
-
+import com.byegor.edrive.adapter.RecyclerMachineAdapter;
+import com.byegor.edrive.dao.ConsumptionDAO;
+import com.byegor.edrive.dao.MachineDAO;
+import com.byegor.edrive.listener.CustomOnClickListener;
 import com.byegor.edrive.localDB.DBHelper;
-import com.byegor.edrive.repository.MachineRepository;
+
+import com.byegor.edrive.localDB.HelperFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.SQLException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    FloatingActionButton btnAdd;
-    DBHelper dbHelper;
-    SimpleCursorAdapter simpleCursorAdapter;
-    MachineRepository machineRepository;
-    String[] projections = {"_id", "name", "fuel"};
-    String [] from = new String[] {"name" , "fuel"};
-    int [] to = new int[] {R.id.tvMachineName, R.id.tvMachineFuel, R.id.tvMachineId};
-    ListView machineList;
-    SQLiteDatabase db;
+public class MainActivity extends AppCompatActivity {
+
+    private FloatingActionButton btnAdd;
+
+    private RecyclerMachineAdapter adapter;
+    private RecyclerView recycler;
+
+    private MachineDAO machineDAO = null;
+    private ConsumptionDAO consumptionDAO = null;
+
+    private CustomOnClickListener onClickListener;
+
+    public MainActivity() throws SQLException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        machineList = (ListView) findViewById(R.id.lvMachineList);
-        dbHelper = new DBHelper(this);
-        db = dbHelper.getWritableDatabase();
-
-
+        HelperFactory.setHelper(this);
+        onClickListener = new CustomOnClickListener(this);
         btnAdd = (FloatingActionButton) findViewById(R.id.btnAddNewMachine);
-        btnAdd.setOnClickListener(this);
+        btnAdd.setOnClickListener(onClickListener);
+        try {
+            machineDAO = HelperFactory.getDbHelper().getMachineDAO();
+            consumptionDAO = HelperFactory.getDbHelper().getConsumptionDAO();
+            System.out.println(consumptionDAO.getConsumptionByMachineId(1));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-        Cursor cursor = db.query("machine", null, null, null, null, null, null);
-        startManagingCursor(cursor);
-
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, R.layout.machine_point, cursor, from, to);
-        machineList = (ListView) findViewById(R.id.lvMachineList);
-        machineList.setAdapter(adapter);
-
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnAddNewMachine:
-                Intent intent = new Intent(this, NewMachineActivity.class);
-                startActivity(intent);
-                break;
-
-            default:
-                break;
+        try {
+            recycler = (RecyclerView) findViewById(R.id.rvMachineList);
+            adapter = new RecyclerMachineAdapter(machineDAO.getAllMachines(), this);
+            recycler.setLayoutManager(new LinearLayoutManager(this));
+            recycler.setAdapter(adapter);
+            System.out.println(machineDAO.getAllMachines());
+            System.out.println(machineDAO);
+        } catch (NullPointerException | SQLException e) {
+            System.out.println("DB is empty");
         }
     }
 
-    //@Override
-//    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-//        return new MyCursorLoader(this, db);
-//    }
-
+//    @SuppressLint("NonConstantResourceId")
 //    @Override
-//    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-//
-//    }
-//
-//    @Override
-//    public void onLoaderReset(Loader<Cursor> loader) {
-//
+//    public void onClick(View view) {
+//        if (view.getId() == R.id.btnAddNewMachine) {
+//            Intent intent = new Intent(this, NewMachineActivity.class);
+//            startActivity(intent);
+//        }
 //    }
 
-//    static class MyCursorLoader extends CursorLoader {
-//
-//        DB db;
-//
-//        public MyCursorLoader(Context context, DB db) {
-//            super(context);
-//            this.db = db;
-//        }
-//
-//        @Override
-//        public Cursor loadInBackground() {
-//            Cursor cursor = db.getAllData();
-//            try {
-//                TimeUnit.SECONDS.sleep(3);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            return cursor;
-//        }
-//
-//    }
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HelperFactory.releaseHelper();
+    }
 }

@@ -3,31 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingLeft="10dp"
+    tools:ignore="TouchTargetSizeCheck">
 
 
     <TextView
         android:id="@+id/tvMachineName"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:textSize="27sp"
 
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:textSize="27sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tvMachineFuel"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:textSize="27sp"
 
-        app:layout_constraintStart_toEndOf="@+id/tvMachineName"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:clickable="true"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMachineName"
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <TextView
-        android:id="@+id/tvMachineId"
-        android:layout_width="50dp"
-        android:layout_height="30dp"
-        app:layout_constraintStart_toEndOf="@+id/tvMachineFuel"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

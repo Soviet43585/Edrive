@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/activity_add_trip.xml" value="0.22" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/activity_machine_create_form.xml" value="0.2234375" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/activity_new_machine_form.xml" value="0.25" />
@@ -10,8 +11,9 @@
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/consumption_point.xml" value="0.22" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/custom_activity.xml" value="0.2234375" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/machine_list_layout.xml" value="0.2234375" />
-        <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/machine_point.xml" value="0.5" />
+        <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/machine_point.xml" value="0.25" />
         <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/new_consumption_point.xml" value="0.33" />
+        <entry key="..\:/Users/Egor/AndroidStudioProjects/Edrive/app/src/main/res/layout/trip_point.xml" value="0.33" />
       </map>
     </option>
   </component>

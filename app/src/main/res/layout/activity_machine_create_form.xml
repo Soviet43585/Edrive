@@ -38,6 +38,7 @@
         android:layout_marginTop="1dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/btnAddNewConsumption"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etStartFuel"
         tools:ignore="SpeakableTextPresentCheck">
@@ -46,8 +47,7 @@
             android:id="@+id/llNewConsumptionList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
+            android:orientation="vertical"></LinearLayout>
     </ScrollView>
 
     <Button

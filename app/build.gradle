@@ -29,6 +29,10 @@ android {
 
 dependencies {
 
+    implementation group: 'com.j256.ormlite', name: 'ormlite-android', version: '6.1'
+    implementation group: 'org.greenrobot', name: 'greendao', version: '3.3.0'
+
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

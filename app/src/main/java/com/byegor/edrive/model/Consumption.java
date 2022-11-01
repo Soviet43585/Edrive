@@ -1,32 +1,30 @@
 package com.byegor.edrive.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "consumption")
 public class Consumption {
 
+
+    @DatabaseField(generatedId = true)
     private int id;
+    @DatabaseField
     private String name;
-    private float fuelConsumption;
-    private float conventionalUnits;
-    private int machineId;
-    private static int counter = 1;
+    @DatabaseField(columnName = "fuel_consumption")
+    private double fuelConsumption;
+    @DatabaseField(columnName = "conventional_unit")
+    private double conventionalUnits;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private Machine machine;
 
-    public Consumption(String name, float fuelConsumption, float conventionalUnits, int machineId) {
-        this.id = counter++;
+
+    public Consumption() {}
+
+    public Consumption(String name, double fuelConsumption, double conventionalUnits) {
         this.name = name;
         this.fuelConsumption = fuelConsumption;
         this.conventionalUnits = conventionalUnits;
-        this.machineId = machineId;
-    }
-
-    public Consumption(int id, String name, float fuelConsumption, float conventionalUnits, int machineId) {
-        this.id = id;
-        this.name = name;
-        this.fuelConsumption = fuelConsumption;
-        this.conventionalUnits = conventionalUnits;
-        this.machineId = machineId;
-    }
-
-    public Consumption() {
-
     }
 
     public int getId() {
@@ -45,28 +43,28 @@ public class Consumption {
         this.name = name;
     }
 
-    public float getFuelConsumption() {
+    public double getFuelConsumption() {
         return fuelConsumption;
     }
 
-    public void setFuelConsumption(float fuelConsumption) {
+    public void setFuelConsumption(double fuelConsumption) {
         this.fuelConsumption = fuelConsumption;
     }
 
-    public float getConventionalUnits() {
+    public double getConventionalUnits() {
         return conventionalUnits;
     }
 
-    public void setConventionalUnits(float conventionalUnits) {
+    public void setConventionalUnits(double conventionalUnits) {
         this.conventionalUnits = conventionalUnits;
     }
 
-    public int getMachineId() {
-        return machineId;
+    public Machine getMachine() {
+        return machine;
     }
 
-    public void setMachineId(int machineId) {
-        this.machineId = machineId;
+    public void setMachine(Machine machine) {
+        this.machine = machine;
     }
 
     @Override
@@ -76,7 +74,10 @@ public class Consumption {
                 ", name='" + name + '\'' +
                 ", fuelConsumption=" + fuelConsumption +
                 ", conventionalUnits=" + conventionalUnits +
-                ", machineId=" + machineId +
+                ", machine=" + machine +
                 '}';
     }
+
+
+
 }

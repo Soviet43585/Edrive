@@ -12,4 +12,5 @@
     <string name="etConsumptionNumberHint">Расход</string>
     <string name="etConventionalUnitsHint">Работа</string>
     <string name="btnDeletePoint">Ударить норму</string>
+    <string name="todo">TODO</string>
 </resources>

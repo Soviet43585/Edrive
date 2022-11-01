@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Edrive">
         <activity
+            android:name=".TripActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -20,8 +23,7 @@
         </activity>
         <activity
             android:name=".NewMachineActivity"
-            android:label="AddDataActivity">
-        </activity>
+            android:label="AddDataActivity"></activity>
     </application>
 
 </manifest>
