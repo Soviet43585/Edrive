@@ -10,7 +10,6 @@ import java.util.List;
 
 public class MachineDAO extends BaseDaoImpl<Machine, Integer> {
 
-
     public MachineDAO(ConnectionSource connectionSource, Class<Machine> dataClass) throws SQLException {
         super(connectionSource, dataClass);
     }
@@ -23,14 +22,14 @@ public class MachineDAO extends BaseDaoImpl<Machine, Integer> {
         this.update(machine);
     }
 
+    public void deleteMachine(Machine machine) throws SQLException {
+        this.delete(machine);
+    }
+
     @Override
     public String toString() {
         return "MachineDAO{" +
                 "dataClass=" + dataClass.toString() +
                 '}';
     }
-
-    //    public List<Consumption> getConsumptionFromMachine() {
-//        return this.q
-//    }
 }

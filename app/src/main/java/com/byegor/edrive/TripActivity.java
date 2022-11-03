@@ -1,6 +1,9 @@
 package com.byegor.edrive;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,10 +17,13 @@ import android.widget.TextView;
 import com.byegor.edrive.adapter.RecyclerTripAdapter;
 import com.byegor.edrive.dao.ConsumptionDAO;
 import com.byegor.edrive.dao.MachineDAO;
+import com.byegor.edrive.dialog.DeleteMachineDialogFragment;
 import com.byegor.edrive.localDB.HelperFactory;
+import com.byegor.edrive.model.Consumption;
 import com.byegor.edrive.model.Machine;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class TripActivity extends AppCompatActivity {
 
@@ -35,6 +41,10 @@ public class TripActivity extends AppCompatActivity {
 
     double fuel;
     double fill = 0;
+
+    Intent intent;
+
+    DeleteMachineDialogFragment dialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,6 @@ public class TripActivity extends AppCompatActivity {
             machine = (Machine) arguments.getSerializable(Machine.class.getSimpleName());
         }
 
-
         tvMachineName = (TextView) findViewById(R.id.tvMachineName1);
         tvMachineFuel = (TextView) findViewById(R.id.tvMachineFuel1);
 
@@ -62,6 +71,8 @@ public class TripActivity extends AppCompatActivity {
         tvMachineFuel.setText("" + machine.getFuel() + " l.");
 
         fuel = machine.getFuel();
+
+        intent = new Intent(this, MainActivity.class);
 
         try {
             recycler = (RecyclerView) findViewById(R.id.rvConsumptionList);
@@ -101,7 +112,7 @@ public class TripActivity extends AppCompatActivity {
                     throwables.printStackTrace();
                 }
                 System.out.println("Fuel = " + fuel);
-                Intent intent = new Intent(view.getContext(), MainActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -117,6 +128,22 @@ public class TripActivity extends AppCompatActivity {
         return consumption/unit*trip;
     }
 
+    public void deleteMachine(View view) {
 
+        dialogFragment = new DeleteMachineDialogFragment(machineDAO, consumptionDAO, machine, intent);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        dialogFragment.show(fragmentManager, "deleteMachineDialog");
+
+
+//        try {
+//            List<Consumption> consumptionList = consumptionDAO.getConsumptionByMachineId(machine.getId());
+//            consumptionDAO.deleteConsumptions(consumptionList);
+//            machineDAO.deleteMachine(machine);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        startActivity(intent);
+    }
 
 }

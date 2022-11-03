@@ -9,7 +9,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.byegor.edrive.adapter.RecyclerConsumptionAdapter;
 import com.byegor.edrive.dao.ConsumptionDAO;
 import com.byegor.edrive.dao.MachineDAO;
 import com.byegor.edrive.localDB.DBHelper;
@@ -31,14 +34,19 @@ public class NewMachineActivity extends Activity implements View.OnClickListener
     private MachineDAO machineDAO = null;
     private ConsumptionDAO consumptionDAO = null;
 
+    RecyclerView recycler;
 
+    RecyclerConsumptionAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_machine_create_form);
         HelperFactory.setHelper(this);
-
+        adapter = new RecyclerConsumptionAdapter();
+        recycler = (RecyclerView) findViewById(R.id.rvNewConsumptionList);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        recycler.setAdapter(adapter);
         try {
             machineDAO = HelperFactory.getDbHelper().getMachineDAO();
             consumptionDAO = HelperFactory.getDbHelper().getConsumptionDAO();
@@ -47,49 +55,34 @@ public class NewMachineActivity extends Activity implements View.OnClickListener
         }catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         Button btnAddNewPoint = (Button) findViewById(R.id.btnAddNewConsumption);
         Button btnCreateNewMachine = (Button) findViewById(R.id.btnCreateNewMachine);
-        Button btnDeletePoint = (Button) findViewById(R.id.btnDeletePoint);
-
-        allEds = new ArrayList<>();
-        linear = (LinearLayout) findViewById(R.id.llNewConsumptionList);
-
-
         btnCreateNewMachine.setOnClickListener(this);
         btnAddNewPoint.setOnClickListener(this);
-        v = getLayoutInflater().inflate(R.layout.consumption_point, null, false);
-        allEds.add(v);
-        linear.addView(v);
     }
 
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnAddNewConsumption:
-                v = getLayoutInflater().inflate(R.layout.consumption_point, null, false);
-                System.out.println(allEds.size() + " ");
-                allEds.add(v);
-                linear.addView(v);
-                break;
+           case R.id.btnAddNewConsumption:
+               adapter.notifyDataSetChanged();
+               adapter.addItem();
+               break;
             case R.id.btnCreateNewMachine:
                 EditText etNewMachineName = (EditText) findViewById(R.id.etMachineName);
                 EditText etStartFuel = (EditText) findViewById(R.id.etStartFuel);
-
-                Machine machine = new Machine(etNewMachineName.getText().toString(), Integer.parseInt(etStartFuel.getText().toString().trim()));
-
+                Machine machine = new Machine(etNewMachineName.getText().toString(), Double.parseDouble(etStartFuel.getText().toString().trim()));
                 try {
                     machineDAO.create(machine);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
-                for (View v : allEds)
-                {
-                    EditText etUnitName = (EditText) v.findViewById(R.id.etConsumptionName);
-                    EditText etFuelConsumption = (EditText) v.findViewById(R.id.etConsumptionNumber);
-                    EditText etConventionalUnits = (EditText) v.findViewById(R.id.etConventionalUnits);
+                for(int i  = 0; i < recycler.getAdapter().getItemCount(); i++) {
+                    view = recycler.getChildAt(i);
+                    EditText etUnitName = (EditText) view.findViewById(R.id.etConsumptionName);
+                    EditText etFuelConsumption = (EditText) view.findViewById(R.id.etConsumptionNumber);
+                    EditText etConventionalUnits = (EditText) view.findViewById(R.id.etConventionalUnits);
                     Consumption consumption = new Consumption(etUnitName.getText().toString(),
                             Double.parseDouble(etFuelConsumption.getText().toString()),
                             Double.parseDouble(etConventionalUnits.getText().toString()));
@@ -101,13 +94,12 @@ public class NewMachineActivity extends Activity implements View.OnClickListener
                     }
                     System.out.println("Created: " + consumption);
                 }
-
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnDeletePoint:
-                System.out.println("Some debug message");
-                linear.removeView((LinearLayout)view.getParent());
+                System.out.println("Delete");
+                recycler.getChildAdapterPosition(view);
         }
     }
 

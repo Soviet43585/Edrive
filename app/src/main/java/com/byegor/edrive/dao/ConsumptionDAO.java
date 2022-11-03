@@ -27,6 +27,10 @@ public class ConsumptionDAO  extends BaseDaoImpl<Consumption, Integer> {
         return consumptions;
     }
 
+    public void deleteConsumptions(List<Consumption> consumptions) throws SQLException {
+        this.delete(consumptions);
+    }
+
     @Override
     public String toString() {
         return "ConsumptionDAO{" +

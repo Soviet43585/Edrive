@@ -23,12 +23,12 @@ public class Machine implements Serializable {
 
     public Machine() {}
 
-    public Machine(String name, int fuel) {
+    public Machine(String name, double fuel) {
         this.name = name;
         this.fuel = fuel;
     }
 
-    public Machine(int id, String name, int fuel) {
+    public Machine(int id, String name, double fuel) {
         this.id = id;
         this.name = name;
         this.fuel = fuel;
